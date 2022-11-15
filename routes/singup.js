@@ -3,6 +3,9 @@ const Router = express.Router();
 const connection = require('./../database')
 const app = express();
 app.use(express.json())
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'jwt_secret_key';
+const JWT_VALIDITY = '7 days';
 Router.post('/', (req, res)=>{
     //const data = req.body;
     var comapnyList = {
@@ -31,7 +34,11 @@ Router.post('/', (req, res)=>{
                 if(err){
                     throw err;
                 }else{
-                    res.send(result);
+                    const accessToken = jwt.sign({ userId: result[0].ID }, JWT_SECRET, {
+                        expiresIn: JWT_VALIDITY,
+                      });
+                    var completed = {"status":true, "user":result, "code":200, "accessToken": accessToken}
+                    res.send(completed);
                     
                 }
             })

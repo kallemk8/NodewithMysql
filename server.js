@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+var cors = require('cors')
+
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const connection = require('./database')
@@ -8,11 +10,20 @@ const singup = require('./routes/singup');
 const logins = require('./routes/login');
 const email = require('./routes/email');
 const department = require('./routes/department');
+const designation = require('./routes/designation');
+app.use(cors())
 app.use(bodyParser.json())
 app.use('/login', logins);
 app.use('/signup', singup);
 app.use('/department', department);
+app.use('/designation', designation);
 
+app.options('*', cors());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 app.get('/', (req, res) =>{
     connection.query("select * from user", (error, result, fields)=>{
     if(error){
@@ -22,4 +33,4 @@ app.get('/', (req, res) =>{
     }
     })
 })
-app.listen(3002)
+app.listen(5000)
