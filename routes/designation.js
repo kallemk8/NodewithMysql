@@ -14,7 +14,7 @@ Router.get('/:id', (req, res)=>{
     })
 })
 Router.get('/', (req, res)=>{
-    connection.query("select * from designation", (error, result, fields)=>{
+    connection.query("select designation.*, departments.name from designation LEFT JOIN departments ON departments.ID=designation.department;", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{

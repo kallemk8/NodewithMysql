@@ -13,6 +13,16 @@ Router.get('/:id', (req, res)=>{
         }
     })
 })
+
+Router.get('/active', (req, res)=>{
+    connection.query("select * from departments WHERE status=22", (error, result, fields)=>{
+        if(error){
+            res.send(error);
+        }else{
+            res.send("hello");
+        }
+    })
+})
 Router.get('/', (req, res)=>{
     connection.query("select * from departments", (error, result, fields)=>{
         if(error){
@@ -37,7 +47,7 @@ Router.post('/', (req, res)=>{
 
 Router.put('/:id', (req, res)=>{
     const data = [req.body.name, req.body.sub_depat, req.body.desc, req.body.status, req.params.id ];
-    connection.query("UPDATE departments SET name=?, sub_depat=?, desc=?, status=? where ID=?",data, (error, result, fields)=>{
+    connection.query("UPDATE departments SET name='"+req.body.name+"', sub_depat='"+req.body.sub_depat+"', testing='"+req.body.desc+"', status='"+req.body.status+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
