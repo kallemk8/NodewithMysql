@@ -11,12 +11,14 @@ const logins = require('./routes/login');
 const email = require('./routes/email');
 const department = require('./routes/department');
 const designation = require('./routes/designation');
+const user = require('./routes/user');
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/login', logins);
 app.use('/signup', singup);
 app.use('/department', department);
 app.use('/designation', designation);
+app.use('/users', user);
 
 app.options('*', cors());
 app.use(function(req, res, next) {

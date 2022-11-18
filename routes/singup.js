@@ -2,6 +2,7 @@ const express = require('express')
 const Router = express.Router();
 const connection = require('./../database')
 const app = express();
+const md5 = require('md5')
 app.use(express.json())
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'jwt_secret_key';
@@ -27,8 +28,10 @@ Router.post('/', (req, res)=>{
                 "Mobile":req.body.Mobile,
                 "Email":req.body.Email,
                 "Gender":req.body.Gender,
-                "Password":req.body.Password,
-                "CompanyID":result.insertId
+                "Password":md5(req.body.Password),
+                "CompanyID":result.insertId,
+                "Singin":true,
+                "status":1
             }
             connection.query("INSERT INTO user SET?", userList, function(err, result){
                 if(err){

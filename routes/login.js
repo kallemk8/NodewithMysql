@@ -3,11 +3,12 @@ const Router = express.Router();
 const connection = require('./../database')
 const app = express();
 const jwt = require('jsonwebtoken');
+const md5 = require('md5')
 const JWT_SECRET = 'jwt_secret_key';
 const JWT_VALIDITY = '7 days';
 app.use(express.json())
 Router.post('/', (req, res)=>{
-    connection.query("SELECT * FROM user WHERE Email ='"+ req.body.username+"' and Password ='"+ req.body.password+"' ", function(err, result){
+    connection.query("SELECT * FROM user WHERE Email ='"+ req.body.username+"' and Password ='"+ md5(req.body.password)+"' and Singin ='yes' ", function(err, result){
         if(err){
             throw err;
         }else{

@@ -1,11 +1,12 @@
-const express = require('express')
+const express = require('express');
+const md5 = require('md5');
 const Router = express.Router();
 const connection = require('./../database')
 const app = express();
 app.use(express.json());
 
 Router.get('/:id', (req, res)=>{
-    connection.query("select * from departments where ID='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("select * from user where UserID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -13,9 +14,8 @@ Router.get('/:id', (req, res)=>{
         }
     })
 })
-
-Router.get('/active/:id', (req, res)=>{
-    connection.query("select * from departments where status='"+req.params.id+"'", (error, result, fields)=>{
+Router.get('/', (req, res)=>{
+    connection.query("select * from user", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -23,8 +23,8 @@ Router.get('/active/:id', (req, res)=>{
         }
     })
 })
-Router.get('/', (req, res)=>{
-    connection.query("select * from departments", (error, result, fields)=>{
+Router.get('/companyID/:id', (req, res)=>{
+    connection.query("select * from user where CompanyID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -34,8 +34,9 @@ Router.get('/', (req, res)=>{
 })
 
 Router.post('/', (req, res)=>{
-    const data = req.body;
-    connection.query("INSERT INTO departments SET?", data, function(err, result){
+    var data = req.body;
+    data.password = md5(req.body.password)
+    connection.query("INSERT INTO user SET?", data, function(err, result){
         if(err){
             throw err;
         }else{
@@ -46,8 +47,8 @@ Router.post('/', (req, res)=>{
 })
 
 Router.put('/:id', (req, res)=>{
-    const data = [req.body.name, req.body.sub_depat, req.body.desc, req.body.status, req.params.id ];
-    connection.query("UPDATE departments SET name='"+req.body.name+"', sub_depat='"+req.body.sub_depat+"', testing='"+req.body.desc+"', status='"+req.body.status+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+    const data = req.body;
+    connection.query("UPDATE user SET? where UserID='"+req.params.id+"'",data, (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -57,7 +58,7 @@ Router.put('/:id', (req, res)=>{
 })
 
 Router.delete('/:id', (req, res)=>{
-    connection.query("DELETE FROM departments WHERE ID="+req.params.id, (error, result, fields)=>{
+    connection.query("DELETE FROM user WHERE UserID="+req.params.id, (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
