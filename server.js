@@ -12,6 +12,7 @@ const email = require('./routes/email');
 const department = require('./routes/department');
 const designation = require('./routes/designation');
 const projects = require('./routes/projects');
+const meetings = require('./routes/meetings');
 const tasks = require('./routes/tasks');
 const user = require('./routes/user');
 app.use(cors())
@@ -22,6 +23,7 @@ app.use('/department', department);
 app.use('/designation', designation);
 app.use('/users', user);
 app.use('/projects', projects);
+app.use('/meetings', meetings);
 app.use('/tasks', tasks);
 app.options('*', cors());
 app.use(function(req, res, next) {
