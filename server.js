@@ -15,6 +15,7 @@ const projects = require('./routes/projects');
 const meetings = require('./routes/meetings');
 const tasks = require('./routes/tasks');
 const user = require('./routes/user');
+const dailyTasks = require('./routes/dailyTasks');
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/login', logins);
@@ -25,6 +26,7 @@ app.use('/users', user);
 app.use('/projects', projects);
 app.use('/meetings', meetings);
 app.use('/tasks', tasks);
+app.use('/dailytasks', dailyTasks);
 app.options('*', cors());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
