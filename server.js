@@ -17,6 +17,7 @@ const tasks = require('./routes/tasks');
 const user = require('./routes/user');
 const dailyTasks = require('./routes/dailyTasks');
 const leavetype = require('./routes/leaveManagement/leaveType');
+const leaveAssign = require('./routes/leaveManagement/leaveAssign');
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/login', logins);
@@ -29,6 +30,7 @@ app.use('/meetings', meetings);
 app.use('/tasks', tasks);
 app.use('/dailytasks', dailyTasks);
 app.use('/leavetype', leavetype);
+app.use('/leaveassign', leaveAssign);
 app.options('*', cors());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
