@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 Router.get('/:id', (req, res)=>{
-    connection.query("select * from leaveassign where ID='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("select * from leaves where ID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -15,7 +15,7 @@ Router.get('/:id', (req, res)=>{
 })
 
 Router.get('/active/:id', (req, res)=>{
-    connection.query("select * from leaveassign where status='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("select * from leaves where status='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -25,7 +25,7 @@ Router.get('/active/:id', (req, res)=>{
 })
 
 Router.get('/employeeLeaveTypes/:id', (req, res)=>{
-    connection.query("select leaveassign.*, leavetype.LeaveNumber AS numbers, leavetype.name AS LeaveTypeName from leaveassign JOIN leavetype ON leavetype.ID=leaveassign.leaveType where userID='"+req.params.id+"' " , (error, result, fields)=>{
+    connection.query("select leaves.*, leavetype.LeaveNumber AS numbers, leavetype.name AS LeaveTypeName from leaveassign JOIN leavetype ON leavetype.ID=leaveassign.leaveType where userID='"+req.params.id+"' " , (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -34,8 +34,8 @@ Router.get('/employeeLeaveTypes/:id', (req, res)=>{
     })
 })
 Router.get('/', (req, res)=>{
-    
-    connection.query("select leaveassign.*, user.Name, comapny.ComapnyName, leavetype.name from leaveassign JOIN user ON user.UserID=leaveassign.userID JOIN leavetype ON leavetype.ID=leaveassign.leaveType  JOIN comapny ON leaveassign.companyID=comapny.ComapnyID", (error, result, fields)=>{
+   // connection.query("select * from leaves", (error, result, fields)=>{
+    connection.query("select leaves.*, user.Name as EmpName, leavetype.name from leaves JOIN user ON user.UserID=leaves.userID JOIN leavetype ON leavetype.ID=leaves.leaveType", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -61,9 +61,7 @@ Router.get('/', (req, res)=>{
 
 Router.post('/', (req, res)=>{
     const data = req.body;
-
-    var leaveTypes = req.body.leaveType.join(",")
-    connection.query("INSERT INTO leaveassign SET leaveType='"+leaveTypes+"', userID='"+req.body.userID+"',CurrentDate='"+req.body.CurrentDate+"', companyID='"+req.body.CompanyID+"'", data, function(err, result){
+    connection.query("INSERT INTO leaves SET?", data, function(err, result){
         if(err){
             throw err;
         }else{
@@ -75,7 +73,7 @@ Router.post('/', (req, res)=>{
 
 Router.put('/:id', (req, res)=>{
     const data = [req.body.name, req.body.sub_depat, req.body.desc, req.body.status, req.params.id ];
-    connection.query("UPDATE leaveassign SET name='"+req.body.name+"', LeaveNumber='"+req.body.LeaveNumber+"', Applicable='"+req.body.Applicable+"', info='"+req.body.info+"'  WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("UPDATE leaves SET name='"+req.body.name+"', LeaveNumber='"+req.body.LeaveNumber+"', Applicable='"+req.body.Applicable+"', info='"+req.body.info+"'  WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -86,7 +84,7 @@ Router.put('/:id', (req, res)=>{
 
 Router.put('/status/:id', (req, res)=>{
     const data = [req.body.status, req.params.id ];
-    connection.query("UPDATE leaveassign SET status='"+req.body.status+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("UPDATE leaves SET status='"+req.body.status+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
@@ -96,7 +94,7 @@ Router.put('/status/:id', (req, res)=>{
 })
 
 Router.delete('/:id', (req, res)=>{
-    connection.query("DELETE FROM leaveassign WHERE ID="+req.params.id, (error, result, fields)=>{
+    connection.query("DELETE FROM leaves WHERE ID="+req.params.id, (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{

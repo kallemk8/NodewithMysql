@@ -18,6 +18,8 @@ const user = require('./routes/user');
 const dailyTasks = require('./routes/dailyTasks');
 const leavetype = require('./routes/leaveManagement/leaveType');
 const leaveAssign = require('./routes/leaveManagement/leaveAssign');
+const leaves = require('./routes/leaveManagement/leaves');
+const userroles = require('./routes/settings/userRoles');
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/login', logins);
@@ -31,6 +33,8 @@ app.use('/tasks', tasks);
 app.use('/dailytasks', dailyTasks);
 app.use('/leavetype', leavetype);
 app.use('/leaveassign', leaveAssign);
+app.use('/leaves', leaves);
+app.use('/userroles', userroles);
 app.options('*', cors());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -39,6 +43,16 @@ app.use(function(req, res, next) {
 });
 app.get('/', (req, res) =>{
     connection.query("select * from user", (error, result, fields)=>{
+    if(error){
+        res.send(error);
+    }else{
+        res.send(result);
+    }
+    })
+})
+
+app.get('/roles', (req, res) =>{
+    connection.query("select * from roles", (error, result, fields)=>{
     if(error){
         res.send(error);
     }else{
