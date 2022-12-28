@@ -73,7 +73,7 @@ Router.post('/', (req, res)=>{
 
 Router.put('/:id', (req, res)=>{
     const data = [req.body.name, req.body.sub_depat, req.body.desc, req.body.status, req.params.id ];
-    connection.query("UPDATE leaves SET name='"+req.body.name+"', LeaveNumber='"+req.body.LeaveNumber+"', Applicable='"+req.body.Applicable+"', info='"+req.body.info+"'  WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("UPDATE leaves SET leaveType='"+req.body.leaveType+"', startDate='"+req.body.startDate+"', endDate='"+req.body.endDate+"', numberOfLeaves='"+req.body.numberOfLeaves+"', Reason='"+req.body.Reason+"', status='"+req.body.status+"', halfDay='"+req.body.halfDay+"', halfDaysection='"+req.body.halfDaysection+"'  WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{

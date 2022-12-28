@@ -61,9 +61,7 @@ Router.get('/', (req, res)=>{
 
 Router.post('/', (req, res)=>{
     const data = req.body;
-
-    var leaveTypes = req.body.leaveType.join(",")
-    connection.query("INSERT INTO leaveassign SET leaveType='"+leaveTypes+"', userID='"+req.body.userID+"',CurrentDate='"+req.body.CurrentDate+"', companyID='"+req.body.CompanyID+"'", data, function(err, result){
+    connection.query("INSERT INTO leaveassign SET leaveType='"+req.body.leaveType+"', userID='"+req.body.userID+"',CurrentDate='"+req.body.CurrentDate+"', companyID='"+req.body.CompanyID+"'", data, function(err, result){
         if(err){
             throw err;
         }else{
@@ -74,8 +72,7 @@ Router.post('/', (req, res)=>{
 })
 
 Router.put('/:id', (req, res)=>{
-    const data = [req.body.name, req.body.sub_depat, req.body.desc, req.body.status, req.params.id ];
-    connection.query("UPDATE leaveassign SET name='"+req.body.name+"', LeaveNumber='"+req.body.LeaveNumber+"', Applicable='"+req.body.Applicable+"', info='"+req.body.info+"'  WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+    connection.query("UPDATE leaveassign SET leaveType='"+req.body.leaveType+"', userID='"+req.body.userID+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
         if(error){
             res.send(error);
         }else{
