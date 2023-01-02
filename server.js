@@ -20,6 +20,8 @@ const leavetype = require('./routes/leaveManagement/leaveType');
 const leaveAssign = require('./routes/leaveManagement/leaveAssign');
 const leaves = require('./routes/leaveManagement/leaves');
 const userroles = require('./routes/settings/userRoles');
+const employee = require('./routes/employee/employee');
+const upload = require('./routes/settings/upload');
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/login', logins);
@@ -35,6 +37,8 @@ app.use('/leavetype', leavetype);
 app.use('/leaveassign', leaveAssign);
 app.use('/leaves', leaves);
 app.use('/userroles', userroles);
+app.use('/employee', employee);
+app.use('/upload', upload);
 app.options('*', cors());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
