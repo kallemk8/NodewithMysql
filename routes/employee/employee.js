@@ -118,6 +118,48 @@ Router.put('/updateProfileInfo/:id', (req, res)=>{
     })
 })
 
+Router.put('/updateProfileNation/:id', (req, res)=>{
+    connection.query("UPDATE empdetails SET Passport='"+req.body.Passport+"',Nationality='"+req.body.Nationality+"',Religion='"+req.body.Religion+"',MaritalStatus='"+req.body.MaritalStatus+"',spouse='"+req.body.spouse+"',children='"+req.body.children+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+        if(error){
+            res.send(error);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
+Router.put('/updateProfileContact/:id', (req, res)=>{
+    connection.query("UPDATE empdetails SET PrimaryName='"+req.body.PrimaryName+"',PrimaryRelationship='"+req.body.PrimaryRelationship+"',PrimaryPhone='"+req.body.PrimaryPhone+"',SecondaryName='"+req.body.SecondaryName+"',SecondaryRelationship='"+req.body.SecondaryRelationship+"',SecondaryPhone='"+req.body.SecondaryPhone+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+        if(error){
+            res.send(error);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
+Router.put('/updateProfileBank/:id', (req, res)=>{
+    connection.query("UPDATE empdetails SET Bankname='"+req.body.Bankname+"',BankaccountNo='"+req.body.BankaccountNo+"',IFSCCode='"+req.body.IFSCCode+"',PANNo='"+req.body.PANNo+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{
+        if(error){
+            res.send(error);
+        }else{
+            res.send(result);
+        }
+    })
+})
+
+Router.post('/updateProfileFamily/:id', (req, res)=>{
+    for (var i = 0; i < req.body.family.length; i++) {
+    connection.query("INSERT INTO empfamily SET?", req.body.family[i], (error, result, fields)=>{
+        if(error){
+            res.send(error);
+        }else{
+            res.send(result);
+        }
+    })
+    }
+})
+
 Router.put('/status/:id', (req, res)=>{
     const data = [req.body.status, req.params.id ];
     connection.query("UPDATE leaveassign SET status='"+req.body.status+"' WHERE ID='"+req.params.id+"'", (error, result, fields)=>{

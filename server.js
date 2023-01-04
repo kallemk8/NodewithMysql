@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 var cors = require('cors')
+const http = require("http");
+const path = require("path");
+const fs = require("fs");
 
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
@@ -40,20 +43,12 @@ app.use('/userroles', userroles);
 app.use('/employee', employee);
 app.use('/upload', upload);
 app.options('*', cors());
+app.use("/uploads", express.static("public/uploads"));
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-app.get('/', (req, res) =>{
-    connection.query("select * from user", (error, result, fields)=>{
-    if(error){
-        res.send(error);
-    }else{
-        res.send(result);
-    }
-    })
-})
 
 app.get('/roles', (req, res) =>{
     connection.query("select * from roles", (error, result, fields)=>{
